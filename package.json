@@ -1,0 +1,19 @@
+{
+  "name": "youtube-slack-bot",
+  "version": "1.0.0",
+  "description": "Bot to monitor YouTube and post to Slack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ModusCreateOrg/youtube-slack-bot.git"
+  },
+  "author": "Michael Schwartz <mike@moduscreate.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ModusCreateOrg/youtube-slack-bot/issues"
+  },
+  "homepage": "https://github.com/ModusCreateOrg/youtube-slack-bot#readme"
+}
