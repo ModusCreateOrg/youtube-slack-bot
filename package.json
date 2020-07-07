@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ModusCreateOrg/youtube-slack-bot/issues"
   },
-  "homepage": "https://github.com/ModusCreateOrg/youtube-slack-bot#readme"
+  "homepage": "https://github.com/ModusCreateOrg/youtube-slack-bot#readme",
+  "dependencies": {
+    "@slack/web-api": "^5.10.0"
+  }
 }
