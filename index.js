@@ -2,23 +2,22 @@
  * youtube-slack-bot
  */
 
-const {WebClient} = require("@slack/web-api");
-
-const token = process.env.MODUS_SLACK_SECRET;
-
-console.log("token: ", token);
-
-const web = new WebClient(token);
-
-const conversationId = 'youtube-slack-bot'
+const debug = require("debug")("youtube-slack-bot"),
+      Slack = require("./lib/Slack"),
+      slack = new Slack(process.env.MODUS_SLACK_SECRET),
+      YouTube = require("./lib/YouTube");
 
 const main = async () => {
+    // slack.SendMessage('youtube-slack-bot', 'Slack class here');
     try {
-	const res = await web.chat.postMessage({ channel: conversationId, text: 'I am dangerous!' });
-	console.log("Message Sent: ", res.ts);
+	const yt = new YouTube();
+	await yt.query();
+	// slack.SendMessage('youtube-slack-bot', 'Slack class here');
+	// const res = await web.chat.postMessage({ channel: conversationId, text: 'I am dangerous!' });
+	// console.log("Message Sent: ", res.ts);
     }
     catch (e) {
-	console.log("error", e);
+	debug("error", e);
     }
 };
 
