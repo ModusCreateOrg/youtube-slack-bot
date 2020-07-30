@@ -11,7 +11,8 @@ const main = async () => {
     // slack.SendMessage('youtube-slack-bot', 'Slack class here');
     try {
 	const yt = new YouTube();
-	await yt.query();
+	await yt.queryVideos();
+	// await yt.queryComments();
 	// slack.SendMessage('youtube-slack-bot', 'Slack class here');
 	// const res = await web.chat.postMessage({ channel: conversationId, text: 'I am dangerous!' });
 	// console.log("Message Sent: ", res.ts);

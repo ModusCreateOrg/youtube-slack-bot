@@ -4,7 +4,7 @@
    "description": "Bot to monitor YouTube and post to Slack",
    "main": "index.js",
    "scripts": {
-      "start": "node ./index.js",
+      "start": "./node_modules/.bin/nodemon ./index.js",
       "test": "echo \"Error: no test specified\" && exit 1"
    },
    "repository": {
@@ -21,6 +21,8 @@
       "@slack/web-api": "^5.10.0",
       "debug": "^4.1.1",
       "google-auth-library": "^6.0.3",
-      "googleapis": "^52.1.0"
+      "googleapis": "^52.1.0",
+      "nodemon": "^2.0.4",
+      "superagent": "^5.3.1"
    }
 }

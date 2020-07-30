@@ -1,0 +1,18 @@
+version: '3'
+services:
+
+  mongo:
+    image: mongo
+    volumes:
+      - ~/.local/db/mongo:/data/db
+
+  bot:
+    build: .
+    volumes:
+      - node_modules-youtube-slack-bot:/home/bot/node_modules
+    environment:
+      - MODUS_SLACK_SECRET=${MODUS_SLACK_SECRET}
+      - MODUS_YOUTUBE_SECRET=${MODUS_YOUTUBE_SECRET}
+
+volumes:
+  node_modules-youtube-slack-bot:
