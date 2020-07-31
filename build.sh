@@ -1,4 +1,5 @@
 #!/bin/sh
 
-docker-compose -f docker-compose.yml build
-docker-compose run bot yarn install
+sudo rm -rf .config
+docker-compose -f docker-compose-dev.yml build
+docker-compose -f docker-compose-dev.yml run bot npm install

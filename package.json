@@ -22,6 +22,7 @@
       "debug": "^4.1.1",
       "google-auth-library": "^6.0.3",
       "googleapis": "^52.1.0",
+      "mongodb": "^3.6.0",
       "nodemon": "^2.0.4",
       "superagent": "^5.3.1"
    }
