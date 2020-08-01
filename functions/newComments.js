@@ -49,7 +49,7 @@ const newComments = async (videos) => {
 	debug(`newComments - already processed ${snippet.authorDisplayName} ${title}`);
       }
       else {
-	if (diff < ONE_HOUR) {
+	if (diff < ONE_HOUR*2) {
 	  debug(`newComment! - ${d.toString} ${snippet.authorDisplayName} ${title}`);
 	  await slack.SendMessage(`youtube-slack-bot', "new comment on video ${title}`);
 	  number++;
@@ -63,7 +63,6 @@ const newComments = async (videos) => {
     }
   }
 
-  // await slack.SendMessage('youtube-slack-bot', `  Number of new comments ${number}`);
     await slack.SendMessage('youtube-slack-bot', `  \`\`\`Number of new comments ${number}\`\`\``);
 };
 
