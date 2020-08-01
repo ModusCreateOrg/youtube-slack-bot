@@ -12,6 +12,8 @@ services:
       - node_modules-youtube-slack-bot:/home/bot/node_modules
       - .:/home/bot
     environment:
+      - DROP=${DROP}
+      - NODE_ENV=development
       - MODUS_SLACK_SECRET=${MODUS_SLACK_SECRET}
       - MODUS_YOUTUBE_SECRET=${MODUS_YOUTUBE_SECRET}
 
