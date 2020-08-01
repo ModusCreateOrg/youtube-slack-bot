@@ -31,6 +31,7 @@ const main = async () => {
       await topLevelComments(videos, comments);
       await newComments(videos);
       await wait(HOUR);
+      await ty.resetDatabase();
     }
   }
 };
