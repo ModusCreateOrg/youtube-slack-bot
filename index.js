@@ -13,7 +13,8 @@ const debug = require("debug")("youtube-slack-bot"),
 
 const topLevelComments = require('./functions/topLevelComments'),
       newComments = require('./functions/newComments'),
-      subscriptions = require('./functions/subscriptions');
+      subscriptions = require('./functions/subscriptions'),
+      mostViewed = require('./functions/mostViewed');
 
 const wait = ms => new Promise(res => setTimeout(res, ms));
 
@@ -29,13 +30,14 @@ const main = async () => {
     for (let hour = 0; hour<24; hour++) {
       try {
 	// fetch videos and comments - order of these calls is important!
-	const videos = await yt.queryChannel(),
+	const videos = await yt.queryChannelVideos(),
 	      comments = await yt.queryComments();
 
 	// do these things every hour:
 	await topLevelComments(videos, comments);
 	await newComments(videos);
 	await subscriptions();
+	await mostViewed(videos);
 
 	await wait(HOUR);
 	await ty.resetDatabase();
@@ -47,6 +49,9 @@ const main = async () => {
   }
 };
 
+/**
+ * if DROP env var is set, this is called to completely drop the MongoDB database.
+*/
 const drop = async () => {
   try {
     const result = await MongoDB.DropDatabase();
@@ -57,22 +62,10 @@ const drop = async () => {
   }
 };
 
-const foo = async() => {
-  if (false) {
-    const ids = [];
-    for (let key of Object.keys(videos)) {
-      if (key != 'count') {
-	console.log("key", key, "title", videos[key].snippet.title);
-	ids.push(key);
-      }
-    }
-    const data = await yt.queryVideos(ids);
-  }
-};
-
 if (process.env.DROP) {
   console.log("Dropping database");
   drop();
+  console.log("Dropped database");
   process.exit(1);
 }
 else {

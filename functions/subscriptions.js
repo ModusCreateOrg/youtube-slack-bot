@@ -15,11 +15,11 @@ const debug = require("debug")("suscriptions"),
 const subscriptions = async () => {
   try {
     const KEY = "subscriptions";
-    const subs = await yt.queryChannels(),
-	  statistics = subs[0].statistics;
+    const statistics = await yt.queryChannelStatistics();
+    console.log("await", statistics);
 
     const data = await mongo.Get(KEY);
-    const last = data === null ? subs[0].statistics : JSON.parse(data);
+    const last = data === null ? statistics : JSON.parse(data);
     statistics.viewCount = parseInt(statistics.viewCount, 10);
     statistics.commentCount = parseInt(statistics.commentCount, 10);
     statistics.subscriberCount = parseInt(statistics.subscriberCount, 10);
@@ -31,12 +31,15 @@ const subscriptions = async () => {
     last.subscriberCount = parseInt(last.subscriberCount, 10);
     last.videoCount = parseInt(last.videoCount, 10);
 
+    console.log("last", last);
+    console.log("statistics", statistics);
     const message = `Subscribers ${statistics.subscriberCount} (new: ${statistics.subscriberCount - last.subscriberCount}) ` +
 	  `Views ${statistics.viewCount} (new: ${statistics.viewCount - last.viewCount})`;
     await slack.SendMessage('youtube-slack-bot', ` \`\`\`${message}\`\`\``);
   }
   catch (e) {
-    console.log("Exception", e.stack);
+    await slack.Exception(e);
+    // console.log("Exception", e.stack);
   }
 };
 
