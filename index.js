@@ -2,8 +2,8 @@
  * youtube-slack-bot
  */
 
-process.env.DEBUG='topLevelComments newComments';
-
+// process.env.DEBUG='topLevelComments newComments';
+process.env.DEBUG='YouTube subscriptions';
 
 
 const debug = require("debug")("youtube-slack-bot"),
@@ -12,7 +12,8 @@ const debug = require("debug")("youtube-slack-bot"),
       MongoDB = require("./lib/MongoDB");
 
 const topLevelComments = require('./functions/topLevelComments'),
-      newComments = require('./functions/newComments');
+      newComments = require('./functions/newComments'),
+      subscriptions = require('./functions/subscriptions');
 
 const wait = ms => new Promise(res => setTimeout(res, ms));
 
@@ -26,12 +27,22 @@ const main = async () => {
 
   for (;;) {
     for (let hour = 0; hour<24; hour++) {
-      const videos = await yt.queryChannel(),
-	    comments = await yt.queryComments();
-      await topLevelComments(videos, comments);
-      await newComments(videos);
-      await wait(HOUR);
-      await ty.resetDatabase();
+      try {
+	// fetch videos and comments - order of these calls is important!
+	const videos = await yt.queryChannel(),
+	      comments = await yt.queryComments();
+
+	// do these things every hour:
+	await topLevelComments(videos, comments);
+	await newComments(videos);
+	await subscriptions();
+
+	await wait(HOUR);
+	await ty.resetDatabase();
+      }
+      catch (e) {
+	console.log("YOUTUBE BOT ", e);
+      }
     }
   }
 };
@@ -59,7 +70,6 @@ const foo = async() => {
   }
 };
 
-console.log("DROP", process.env.DROP);
 if (process.env.DROP) {
   console.log("Dropping database");
   drop();
