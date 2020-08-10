@@ -1,3 +1,12 @@
+/**
+ *  newComments();
+ *
+ * Check videos for comments not replied to after 48 hours.
+ *
+ * Usage:
+ *     await newComments();
+ */
+
 const debug = require("debug")("newComments"),
       yt = require('../lib/YouTube'),
       slack = require('../lib/Slack'),
@@ -6,22 +15,23 @@ const debug = require("debug")("newComments"),
 const ONE_HOUR = 1000 * 60 * 60;
 
 const newComments = async (videos) => {
+
   let number = 0;
   const newComments = [],
 	now = new Date(),
 	keys = Object.keys(videos);
 
-  // for (let i = 0; i < keys.length; i++ ) {
-  // const key = keys[i];
   for (let key of keys) {
     if (key == 'count') {
       continue;
     }
+
     const video = videos[key],
 	  snippet = video.snippet,
 	  id = video.snippet.videoId,
 	  comment = video.snippet;
 
+    // sort comments by timestamp published
     const  videoComments = video.comments.sort((c1, c2) => {
       const snip1= c1.topLevelComment.snippet,
       	    snip2 = c2.topLevelComment.snippet;
@@ -36,7 +46,6 @@ const newComments = async (videos) => {
 	    video = videos[snippet.videoId],
 	    title = video.snippet.title,
 	    id = comment.topLevelComment.id;
-
 
       const d = new Date(snippet.publishedAt),
 	    diff = now - d;
@@ -58,6 +67,7 @@ const newComments = async (videos) => {
 	  debug(`newComments - skipping  ${d.toString()} ${snippet.authorDisplayName} ${title}`);
 	}
       }
+
       record.newCommentProcessed = Date.now();
       await mongo.Set(dbKey, JSON.stringify(record));
     }
