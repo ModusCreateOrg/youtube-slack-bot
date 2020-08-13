@@ -55,7 +55,6 @@ const mostViewed = async (videos) => {
 	    published = new Date(rec.snippet.publishedAt),
 	    message = `${format(views)}   ${format_date(published)}    <http://youtube.com/watch?v=${rec.id.videoId}|${title}>`;
 
-      console.log("rec", snippet);
       output.push(message);
     }
     output.push("");
