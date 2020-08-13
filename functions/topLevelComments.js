@@ -91,7 +91,9 @@ const topLevelComments = async (videos, comments) => {
     console.error("topLevelComments error");
     console.error("  ", e.stack);
   }
-  if (number == 0) {
+  return `Number of comments not replied to ${number}`;
+  if (number != 0) {
+
     await slack.SendMessage('youtube-slack-bot', `  \`\`\`Number of comments not replied to ${number}\`\`\``);
     
   }

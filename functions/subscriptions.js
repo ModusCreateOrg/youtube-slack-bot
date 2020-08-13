@@ -16,7 +16,6 @@ const subscriptions = async () => {
   try {
     const KEY = "subscriptions";
     const statistics = await yt.queryChannelStatistics();
-    console.log("await", statistics);
 
     const data = await mongo.Get(KEY);
     const last = data === null ? statistics : JSON.parse(data);
@@ -31,11 +30,10 @@ const subscriptions = async () => {
     last.subscriberCount = parseInt(last.subscriberCount, 10);
     last.videoCount = parseInt(last.videoCount, 10);
 
-    console.log("last", last);
-    console.log("statistics", statistics);
     const message = `Subscribers ${statistics.subscriberCount} (new: ${statistics.subscriberCount - last.subscriberCount}) ` +
 	  `Views ${statistics.viewCount} (new: ${statistics.viewCount - last.viewCount})`;
-    await slack.SendMessage('youtube-slack-bot', ` \`\`\`${message}\`\`\``);
+    return message;
+    // await slack.SendMessage('youtube-slack-bot', ` \`\`\`${message}\`\`\``);
   }
   catch (e) {
     await slack.Exception(e);
