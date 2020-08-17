@@ -25,8 +25,9 @@ const lead0 = (num) => {
 };
 
 const format_date = (d) => {
-  return lead0(d.getMonth()) + '/' + lead0(d.getDate()) + '/' + d.getFullYear();
+  return lead0(d.getMonth()) + '/' + lead0(d.getDate()) + '/' + (''+d.getFullYear()).substr(2);
 }
+
 const mostViewed = async (videos) => {
   try {
     const vids = [];
@@ -43,19 +44,27 @@ const mostViewed = async (videos) => {
     const output = [];
 
     output.push("");
-    output.push("       TOP 5 MOST POPULAR VIDEOS");
+    output.push("       RECENTLY VIEWED VIDEOS");
     output.push("");
-    output.push(`${format("VIEWS")}   PUBLISHED     TITLE`);
-    output.push(`${format("-----")}   ---------     -----`);
-    for (let i=0; i<5; i++) {
+    output.push(`${format("VIEWS")}   PUBLISHED   TITLE`);
+    output.push(`${format("-----")}   ---------   -----`);
+    let count = 0;
+    for (let i=0; i<sorted.length && count < 5; i++) {
       const rec = sorted[i],
 	    views = rec.statistics.viewCount,
 	    snippet = rec.snippet,
 	    title = snippet.title,
 	    published = new Date(rec.snippet.publishedAt),
+	    days28 = new Date(),
 	    message = `${format(views)}   ${format_date(published)}    <http://youtube.com/watch?v=${rec.id.videoId}|${title}>`;
 
+      days28.setDate(days28.getDate() - 28);
+      console.log(title, published, days28);
+      if (published < days28) {
+	continue;
+      }
       output.push(message);
+      count++;
     }
     output.push("");
     return output.join('\n');
