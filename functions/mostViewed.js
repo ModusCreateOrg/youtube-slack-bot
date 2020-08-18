@@ -59,7 +59,7 @@ const mostViewed = async (videos) => {
 	    message = `${format(views)}   ${format_date(published)}    <http://youtube.com/watch?v=${rec.id.videoId}|${title}>`;
 
       days28.setDate(days28.getDate() - 28);
-      console.log(title, published, days28);
+      // console.log(title, published, days28);
       if (published < days28) {
 	continue;
       }
