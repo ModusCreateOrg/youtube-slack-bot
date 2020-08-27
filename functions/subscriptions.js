@@ -32,12 +32,11 @@ const subscriptions = async () => {
 
     const message = `Subscribers ${statistics.subscriberCount} (new: ${statistics.subscriberCount - last.subscriberCount}) ` +
 	  `Views ${statistics.viewCount} (new: ${statistics.viewCount - last.viewCount})`;
+
     return message;
-    // await slack.SendMessage('youtube-slack-bot', ` \`\`\`${message}\`\`\``);
   }
   catch (e) {
     await slack.Exception(e);
-    // console.log("Exception", e.stack);
   }
 };
 
