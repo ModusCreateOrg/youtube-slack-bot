@@ -6,7 +6,7 @@ FROM node
 ENV TZ=America/New_York
 
 # Update and install software
-RUN apt-get update -qq >/dev/null && apt-get install -y -qq curl procps telnet >/dev/null
+RUN apt-get update -qq >/dev/null && apt-get install -y -qq curl procps telnet nodemon >/dev/null
 
 # add a user named bot and create home directory for it
 Run useradd --user-group --create-home --shell /bin/false bot
