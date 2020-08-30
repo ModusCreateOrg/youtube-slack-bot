@@ -68,7 +68,6 @@ const mostViewed = async (videos) => {
     }
     output.push("");
     return output.join('\n');
-    // slack.SendMessage(slack.channel, output.join('\n'));
   }
   catch (e) {
     slack.Exception(e);

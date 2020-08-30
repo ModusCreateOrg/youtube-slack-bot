@@ -21,6 +21,9 @@ const topLevelComments = async (videos, comments) => {
 	    comment = item.snippet,
 	    video = videos[key];
 
+      if (!video) {
+	continue;
+      }
       video.comments = video.comments || [];
       video.comments.push(comment);
     }
