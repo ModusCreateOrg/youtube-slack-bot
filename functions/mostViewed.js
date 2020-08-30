@@ -60,9 +60,9 @@ const mostViewed = async (videos) => {
 
       days28.setDate(days28.getDate() - 28);
       console.log(title, published, days28);
-      // if (published < days28) {
-      // 	continue;
-      // }
+      if (published < days28) {
+	continue;
+      }
       output.push(message);
       count++;
     }
@@ -71,7 +71,8 @@ const mostViewed = async (videos) => {
     // slack.SendMessage(slack.channel, output.join('\n'));
   }
   catch (e) {
-    slack.Exception(e);
+    console.error("topLevelComments error");
+    console.error("  ", e.stack);
   }
 };
 

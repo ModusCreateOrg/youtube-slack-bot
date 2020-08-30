@@ -78,25 +78,26 @@ const topLevelComments = async (videos, comments) => {
 	}
       }
     }
-
     sorted.sort((a, b) => {
       return a.date - b.date;
     });
 
-    const output = [];
     for (let comment of sorted) {
-      output.push(comment.text);
+      await slack.SendMessage('youtube-slack-bot', comment.text);
       number++;
     }
-
-    if (number != 0) {
-      output.push(`Number of comments not replied to ${number}`);
-    }
-    return output.join('\n');
   }
   catch (e) {
-    await slack.Exception(e);
+    console.error("topLevelComments error");
+    console.error("  ", e.stack);
   }
+  return `Number of comments not replied to ${number}`;
+  if (number != 0) {
+
+    await slack.SendMessage('youtube-slack-bot', `  \`\`\`Number of comments not replied to ${number}\`\`\``);
+    
+  }
+  
 };
 
 module.exports = topLevelComments;
