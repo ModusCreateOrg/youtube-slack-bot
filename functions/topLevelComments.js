@@ -21,6 +21,9 @@ const topLevelComments = async (videos, comments) => {
 	    comment = item.snippet,
 	    video = videos[key];
 
+      if (!video) {
+	continue;
+      }
       video.comments = video.comments || [];
       video.comments.push(comment);
     }
@@ -73,7 +76,6 @@ const topLevelComments = async (videos, comments) => {
 	      elapsed: elapsed,
 	      date: d1,
 	      text: `  \`\`\`Comment on video ${snippet.title} has not been replied to for ${elapsed}  days.\`\`\``});
-	    // }
 	  }
 	}
       }
@@ -83,21 +85,14 @@ const topLevelComments = async (videos, comments) => {
     });
 
     for (let comment of sorted) {
-      await slack.SendMessage('youtube-slack-bot', comment.text);
+      await slack.SendMessage(slack.channel, comment.text);
       number++;
     }
+    return `Number of comments not replied to ${number}`;
   }
   catch (e) {
-    console.error("topLevelComments error");
-    console.error("  ", e.stack);
+    slack.Exception(e);
   }
-  return `Number of comments not replied to ${number}`;
-  if (number != 0) {
-
-    await slack.SendMessage('youtube-slack-bot', `  \`\`\`Number of comments not replied to ${number}\`\`\``);
-    
-  }
-  
 };
 
 module.exports = topLevelComments;
