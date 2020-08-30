@@ -73,7 +73,6 @@ const topLevelComments = async (videos, comments) => {
 	      elapsed: elapsed,
 	      date: d1,
 	      text: `  \`\`\`Comment on video ${snippet.title} has not been replied to for ${elapsed}  days.\`\`\``});
-	    // }
 	  }
 	}
       }
@@ -83,7 +82,7 @@ const topLevelComments = async (videos, comments) => {
     });
 
     for (let comment of sorted) {
-      await slack.SendMessage('youtube-slack-bot', comment.text);
+      await slack.SendMessage(slack.channel, comment.text);
       number++;
     }
     return `Number of comments not replied to ${number}`;

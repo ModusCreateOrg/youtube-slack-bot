@@ -74,7 +74,6 @@ const newComments = async (videos) => {
     }
 
     return `Number of new comments ${number}`;
-    // await slack.SendMessage(slack.channel, `  \`\`\`Number of new comments ${number}\`\`\``);
   }
   catch (e) {
     slack.Exception(e);
